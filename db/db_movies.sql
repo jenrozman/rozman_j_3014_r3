@@ -1,13 +1,15 @@
 -- phpMyAdmin SQL Dump
--- version 4.6.5.2
+-- version 4.7.4
 -- https://www.phpmyadmin.net/
 --
--- Host: localhost
--- Generation Time: Jan 23, 2018 at 07:22 PM
--- Server version: 5.6.35
--- PHP Version: 7.0.15
+-- Host: 127.0.0.1:3306
+-- Generation Time: Mar 02, 2018 at 05:55 PM
+-- Server version: 5.7.19
+-- PHP Version: 5.6.31
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+SET AUTOCOMMIT = 0;
+START TRANSACTION;
 SET time_zone = "+00:00";
 
 
@@ -17,26 +19,62 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: db_movies
+-- Database: `db_coup`
 --
+CREATE DATABASE IF NOT EXISTS `db_coup` DEFAULT CHARACTER SET latin1 COLLATE latin1_swedish_ci;
+USE `db_coup`;
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table tbl_arating
+-- Table structure for table `mainmodel`
 --
 
-CREATE TABLE tbl_arating (
-  arating_id smallint(5) UNSIGNED NOT NULL,
-  arating_name varchar(125) NOT NULL,
-  arating_desc text NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT;
+DROP TABLE IF EXISTS `mainmodel`;
+CREATE TABLE IF NOT EXISTS `mainmodel` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `model` varchar(10) NOT NULL,
+  `modelName` varchar(20) NOT NULL,
+  `pricing` varchar(8) NOT NULL,
+  `modelDetails` text NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `model` (`model`),
+  UNIQUE KEY `modelDesc` (`modelName`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
 
 --
--- Dumping data for table tbl_arating
+-- Dumping data for table `mainmodel`
 --
 
-INSERT INTO tbl_arating (arating_id, arating_name, arating_desc) VALUES
+INSERT INTO `mainmodel` (`id`, `model`, `modelName`, `pricing`, `modelDetails`) VALUES
+(0, 'F55', 'Mini Cooper F55', '227,790', 'It’s the turbocharged motoring icon, with more handles to love. The MINI 5 door boasts the same iconic good looks as its 3 door brother, but features an extra pair of passenger doors for practical access to its spacious cabin. And despite its slightly longer frame, the MINI 5 door’s wide, athletic stance and wheels-pushed-out design deliver the corner-carving agility you’d expect from any MINI.'),
+(1, 'F56', 'Mini Cooper F56', '22,190', 'A true style icon – reimagined for contemporary living. Paying tribute to the original 1959 Austin Seven, the MINI Seven Edition brings together our most distinctive elements into one model. Striking Melting Silver details, a unique bonnet stripe design, and exclusive interior elements put this special edition MINI into a class of its own.'),
+(2, 'R58', 'Mini Cooper R58', '40,590', 'It’s almost time to re-discover the redesigned, re-engineered, and completely revamped MINI Convertible. From feistier more fuel-efficient engines, to smarter innovations that let you stay open at every point along the way, this all-new MINI Convertible brings an array of enhancements to get excited about. And although the next iteration of this sun-seeking MINI will look and feel more refined than its predecessor, the open-air exhilaration that awaits you behind the wheel remains the same. We can’t wait for you to experience it in person. Until then... stay open.');
+--
+-- Database: `db_movies`
+--
+CREATE DATABASE IF NOT EXISTS `db_movies` DEFAULT CHARACTER SET latin1 COLLATE latin1_swedish_ci;
+USE `db_movies`;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `tbl_arating`
+--
+
+DROP TABLE IF EXISTS `tbl_arating`;
+CREATE TABLE IF NOT EXISTS `tbl_arating` (
+  `arating_id` smallint(5) UNSIGNED NOT NULL AUTO_INCREMENT,
+  `arating_name` varchar(125) NOT NULL,
+  `arating_desc` text NOT NULL,
+  PRIMARY KEY (`arating_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT;
+
+--
+-- Dumping data for table `tbl_arating`
+--
+
+INSERT INTO `tbl_arating` (`arating_id`, `arating_name`, `arating_desc`) VALUES
 (1, 'G', 'G – General Audiences\r\nAll ages admitted. Nothing that would offend parents for viewing by children. '),
 (2, 'PG', 'PG – Parental Guidance Suggested\r\nSome material may not be suitable for children. Parents urged to give  	&ldquo;parental guidance&rdquo;. '),
 (3, 'PG-13', 'PG-13 – Parents Strongly Cautioned\r\nSome material may be inappropriate for children under 13. Parents are urged to be cautious. Some material may be inappropriate for pre-teenagers.'),
@@ -46,19 +84,22 @@ INSERT INTO tbl_arating (arating_id, arating_name, arating_desc) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table tbl_cast
+-- Table structure for table `tbl_cast`
 --
 
-CREATE TABLE tbl_cast (
-  cast_id mediumint(8) UNSIGNED NOT NULL,
-  cast_name varchar(250) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+DROP TABLE IF EXISTS `tbl_cast`;
+CREATE TABLE IF NOT EXISTS `tbl_cast` (
+  `cast_id` mediumint(8) UNSIGNED NOT NULL AUTO_INCREMENT,
+  `cast_name` varchar(250) NOT NULL,
+  PRIMARY KEY (`cast_id`),
+  UNIQUE KEY `cast_name` (`cast_name`)
+) ENGINE=InnoDB AUTO_INCREMENT=54 DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table tbl_cast
+-- Dumping data for table `tbl_cast`
 --
 
-INSERT INTO tbl_cast (cast_id, cast_name) VALUES
+INSERT INTO `tbl_cast` (`cast_id`, `cast_name`) VALUES
 (36, 'Amy Adams'),
 (26, 'Andrew Garfield'),
 (8, 'Aneurin Barnard'),
@@ -112,32 +153,36 @@ INSERT INTO tbl_cast (cast_id, cast_name) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table tbl_comments
+-- Table structure for table `tbl_comments`
 --
 
-CREATE TABLE tbl_comments (
-  comments_id mediumint(8) UNSIGNED NOT NULL,
-  comments_auth varchar(125) NOT NULL,
-  comments_copy text NOT NULL,
-  comments_date timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
+DROP TABLE IF EXISTS `tbl_comments`;
+CREATE TABLE IF NOT EXISTS `tbl_comments` (
+  `comments_id` mediumint(8) UNSIGNED NOT NULL AUTO_INCREMENT,
+  `comments_auth` varchar(125) NOT NULL,
+  `comments_copy` text NOT NULL,
+  `comments_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`comments_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table tbl_country
+-- Table structure for table `tbl_country`
 --
 
-CREATE TABLE tbl_country (
-  country_id smallint(3) NOT NULL,
-  country_name varchar(100) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT;
+DROP TABLE IF EXISTS `tbl_country`;
+CREATE TABLE IF NOT EXISTS `tbl_country` (
+  `country_id` smallint(3) NOT NULL AUTO_INCREMENT,
+  `country_name` varchar(100) NOT NULL,
+  PRIMARY KEY (`country_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=195 DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT;
 
 --
--- Dumping data for table tbl_country
+-- Dumping data for table `tbl_country`
 --
 
-INSERT INTO tbl_country (country_id, country_name) VALUES
+INSERT INTO `tbl_country` (`country_id`, `country_name`) VALUES
 (1, 'Albania'),
 (2, 'Algeria'),
 (3, 'Andorra'),
@@ -336,19 +381,21 @@ INSERT INTO tbl_country (country_id, country_name) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table tbl_director
+-- Table structure for table `tbl_director`
 --
 
-CREATE TABLE tbl_director (
-  director_id smallint(5) UNSIGNED NOT NULL,
-  director_name varchar(250) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+DROP TABLE IF EXISTS `tbl_director`;
+CREATE TABLE IF NOT EXISTS `tbl_director` (
+  `director_id` smallint(5) UNSIGNED NOT NULL AUTO_INCREMENT,
+  `director_name` varchar(250) NOT NULL,
+  PRIMARY KEY (`director_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table tbl_director
+-- Dumping data for table `tbl_director`
 --
 
-INSERT INTO tbl_director (director_id, director_name) VALUES
+INSERT INTO `tbl_director` (`director_id`, `director_name`) VALUES
 (1, 'James Gunn'),
 (2, 'Christopher Nolan'),
 (3, 'James Mangold'),
@@ -374,19 +421,21 @@ INSERT INTO tbl_director (director_id, director_name) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table tbl_genre
+-- Table structure for table `tbl_genre`
 --
 
-CREATE TABLE tbl_genre (
-  genre_id tinyint(3) UNSIGNED NOT NULL,
-  genre_name varchar(125) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+DROP TABLE IF EXISTS `tbl_genre`;
+CREATE TABLE IF NOT EXISTS `tbl_genre` (
+  `genre_id` tinyint(3) UNSIGNED NOT NULL AUTO_INCREMENT,
+  `genre_name` varchar(125) NOT NULL,
+  PRIMARY KEY (`genre_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table tbl_genre
+-- Dumping data for table `tbl_genre`
 --
 
-INSERT INTO tbl_genre (genre_id, genre_name) VALUES
+INSERT INTO `tbl_genre` (`genre_id`, `genre_name`) VALUES
 (1, 'Action'),
 (2, 'Adventure'),
 (3, 'Comedy'),
@@ -407,19 +456,21 @@ INSERT INTO tbl_genre (genre_id, genre_name) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table tbl_language
+-- Table structure for table `tbl_language`
 --
 
-CREATE TABLE tbl_language (
-  lang_id smallint(5) UNSIGNED NOT NULL,
-  lang_name varchar(250) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+DROP TABLE IF EXISTS `tbl_language`;
+CREATE TABLE IF NOT EXISTS `tbl_language` (
+  `lang_id` smallint(5) UNSIGNED NOT NULL AUTO_INCREMENT,
+  `lang_name` varchar(250) NOT NULL,
+  PRIMARY KEY (`lang_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=216 DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table tbl_language
+-- Dumping data for table `tbl_language`
 --
 
-INSERT INTO tbl_language (lang_id, lang_name) VALUES
+INSERT INTO `tbl_language` (`lang_id`, `lang_name`) VALUES
 (1, 'Abkhaz'),
 (2, 'Afar'),
 (3, 'Afrikaans'),
@@ -639,25 +690,27 @@ INSERT INTO tbl_language (lang_id, lang_name) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table tbl_movies
+-- Table structure for table `tbl_movies`
 --
 
-CREATE TABLE tbl_movies (
-  movies_id mediumint(8) UNSIGNED NOT NULL,
-  movies_cover varchar(75) NOT NULL DEFAULT 'cover_default.jpg',
-  movies_title varchar(125) NOT NULL,
-  movies_year varchar(5) NOT NULL,
-  movies_runtime varchar(25) NOT NULL,
-  movies_storyline text NOT NULL,
-  movies_trailer varchar(75) NOT NULL DEFAULT 'trailer_default.jpg',
-  movies_release varchar(125) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+DROP TABLE IF EXISTS `tbl_movies`;
+CREATE TABLE IF NOT EXISTS `tbl_movies` (
+  `movies_id` mediumint(8) UNSIGNED NOT NULL AUTO_INCREMENT,
+  `movies_cover` varchar(75) NOT NULL DEFAULT 'cover_default.jpg',
+  `movies_title` varchar(125) NOT NULL,
+  `movies_year` varchar(5) NOT NULL,
+  `movies_runtime` varchar(25) NOT NULL,
+  `movies_storyline` text NOT NULL,
+  `movies_trailer` varchar(75) NOT NULL DEFAULT 'trailer_default.jpg',
+  `movies_release` varchar(125) NOT NULL,
+  PRIMARY KEY (`movies_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table tbl_movies
+-- Dumping data for table `tbl_movies`
 --
 
-INSERT INTO tbl_movies (movies_id, movies_cover, movies_title, movies_year, movies_runtime, movies_storyline, movies_trailer, movies_release) VALUES
+INSERT INTO `tbl_movies` (`movies_id`, `movies_cover`, `movies_title`, `movies_year`, `movies_runtime`, `movies_storyline`, `movies_trailer`, `movies_release`) VALUES
 (1, 'guardians2.jpg', 'Guardians of the Galaxy Vol. 2', '2017', '2h 16m', 'The Guardians must fight to keep their newfound family together as they unravel the mystery of Peter Quill&rsquo;s true parentage.', 'Guardians2.mp4', 'May 5, 2017'),
 (2, 'dunkirk.jpg', 'Dunkirk', '2017', '1h 46m', 'Allied soldiers from Belgium, the British Empire and France are surrounded by the German army and evacuated during a fierce battle in World War II.', 'Dunkirk.mp4', 'July 21, 2017'),
 (3, 'logan.jpg', 'Logan', '2017', '2h 17m', 'In the near future, a weary Logan cares for an ailing Professor X, somewhere on the Mexican border. However, Logan&rsquo;s attempts to hide from the world, and his legacy, are upended when a young mutant arrives, pursued by dark forces.', 'Logan.mp4', 'March 3,2017'),
@@ -683,20 +736,22 @@ INSERT INTO tbl_movies (movies_id, movies_cover, movies_title, movies_year, movi
 -- --------------------------------------------------------
 
 --
--- Table structure for table tbl_mov_cast
+-- Table structure for table `tbl_mov_cast`
 --
 
-CREATE TABLE tbl_mov_cast (
-  mov_cast_id mediumint(8) UNSIGNED NOT NULL,
-  movies_id mediumint(9) NOT NULL,
-  cast_id mediumint(9) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+DROP TABLE IF EXISTS `tbl_mov_cast`;
+CREATE TABLE IF NOT EXISTS `tbl_mov_cast` (
+  `mov_cast_id` mediumint(8) UNSIGNED NOT NULL AUTO_INCREMENT,
+  `movies_id` mediumint(9) NOT NULL,
+  `cast_id` mediumint(9) NOT NULL,
+  PRIMARY KEY (`mov_cast_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=54 DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table tbl_mov_cast
+-- Dumping data for table `tbl_mov_cast`
 --
 
-INSERT INTO tbl_mov_cast (mov_cast_id, movies_id, cast_id) VALUES
+INSERT INTO `tbl_mov_cast` (`mov_cast_id`, `movies_id`, `cast_id`) VALUES
 (1, 1, 1),
 (2, 1, 2),
 (3, 1, 3),
@@ -754,20 +809,22 @@ INSERT INTO tbl_mov_cast (mov_cast_id, movies_id, cast_id) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table tbl_mov_country
+-- Table structure for table `tbl_mov_country`
 --
 
-CREATE TABLE tbl_mov_country (
-  mov_country_id mediumint(8) UNSIGNED NOT NULL,
-  movies_id mediumint(9) NOT NULL,
-  country_id smallint(6) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+DROP TABLE IF EXISTS `tbl_mov_country`;
+CREATE TABLE IF NOT EXISTS `tbl_mov_country` (
+  `mov_country_id` mediumint(8) UNSIGNED NOT NULL AUTO_INCREMENT,
+  `movies_id` mediumint(9) NOT NULL,
+  `country_id` smallint(6) NOT NULL,
+  PRIMARY KEY (`mov_country_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=26 DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table tbl_mov_country
+-- Dumping data for table `tbl_mov_country`
 --
 
-INSERT INTO tbl_mov_country (mov_country_id, movies_id, country_id) VALUES
+INSERT INTO `tbl_mov_country` (`mov_country_id`, `movies_id`, `country_id`) VALUES
 (1, 1, 34),
 (2, 1, 134),
 (3, 1, 184),
@@ -797,20 +854,22 @@ INSERT INTO tbl_mov_country (mov_country_id, movies_id, country_id) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table tbl_mov_director
+-- Table structure for table `tbl_mov_director`
 --
 
-CREATE TABLE tbl_mov_director (
-  mov_director_id mediumint(8) UNSIGNED NOT NULL,
-  movies_id mediumint(9) NOT NULL,
-  director_id smallint(6) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+DROP TABLE IF EXISTS `tbl_mov_director`;
+CREATE TABLE IF NOT EXISTS `tbl_mov_director` (
+  `mov_director_id` mediumint(8) UNSIGNED NOT NULL AUTO_INCREMENT,
+  `movies_id` mediumint(9) NOT NULL,
+  `director_id` smallint(6) NOT NULL,
+  PRIMARY KEY (`mov_director_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table tbl_mov_director
+-- Dumping data for table `tbl_mov_director`
 --
 
-INSERT INTO tbl_mov_director (mov_director_id, movies_id, director_id) VALUES
+INSERT INTO `tbl_mov_director` (`mov_director_id`, `movies_id`, `director_id`) VALUES
 (1, 1, 1),
 (2, 2, 2),
 (3, 3, 3),
@@ -836,20 +895,22 @@ INSERT INTO tbl_mov_director (mov_director_id, movies_id, director_id) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table tbl_mov_genre
+-- Table structure for table `tbl_mov_genre`
 --
 
-CREATE TABLE tbl_mov_genre (
-  mov_genre_id mediumint(8) UNSIGNED NOT NULL,
-  movies_id mediumint(9) NOT NULL,
-  genre_id mediumint(9) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+DROP TABLE IF EXISTS `tbl_mov_genre`;
+CREATE TABLE IF NOT EXISTS `tbl_mov_genre` (
+  `mov_genre_id` mediumint(8) UNSIGNED NOT NULL AUTO_INCREMENT,
+  `movies_id` mediumint(9) NOT NULL,
+  `genre_id` mediumint(9) NOT NULL,
+  PRIMARY KEY (`mov_genre_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=37 DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table tbl_mov_genre
+-- Dumping data for table `tbl_mov_genre`
 --
 
-INSERT INTO tbl_mov_genre (mov_genre_id, movies_id, genre_id) VALUES
+INSERT INTO `tbl_mov_genre` (`mov_genre_id`, `movies_id`, `genre_id`) VALUES
 (1, 1, 1),
 (2, 1, 2),
 (3, 1, 9),
@@ -890,20 +951,22 @@ INSERT INTO tbl_mov_genre (mov_genre_id, movies_id, genre_id) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table tbl_mov_lang
+-- Table structure for table `tbl_mov_lang`
 --
 
-CREATE TABLE tbl_mov_lang (
-  mov_lang_id smallint(5) UNSIGNED NOT NULL,
-  movies_id mediumint(9) NOT NULL,
-  language_id smallint(6) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+DROP TABLE IF EXISTS `tbl_mov_lang`;
+CREATE TABLE IF NOT EXISTS `tbl_mov_lang` (
+  `mov_lang_id` smallint(5) UNSIGNED NOT NULL AUTO_INCREMENT,
+  `movies_id` mediumint(9) NOT NULL,
+  `language_id` smallint(6) NOT NULL,
+  PRIMARY KEY (`mov_lang_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=23 DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table tbl_mov_lang
+-- Dumping data for table `tbl_mov_lang`
 --
 
-INSERT INTO tbl_mov_lang (mov_lang_id, movies_id, language_id) VALUES
+INSERT INTO `tbl_mov_lang` (`mov_lang_id`, `movies_id`, `language_id`) VALUES
 (1, 1, 45),
 (2, 2, 45),
 (3, 2, 52),
@@ -930,20 +993,22 @@ INSERT INTO tbl_mov_lang (mov_lang_id, movies_id, language_id) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table tbl_mov_studio
+-- Table structure for table `tbl_mov_studio`
 --
 
-CREATE TABLE tbl_mov_studio (
-  mov_studio_id mediumint(8) UNSIGNED NOT NULL,
-  movies_id mediumint(9) NOT NULL,
-  studio_id smallint(6) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+DROP TABLE IF EXISTS `tbl_mov_studio`;
+CREATE TABLE IF NOT EXISTS `tbl_mov_studio` (
+  `mov_studio_id` mediumint(8) UNSIGNED NOT NULL AUTO_INCREMENT,
+  `movies_id` mediumint(9) NOT NULL,
+  `studio_id` smallint(6) NOT NULL,
+  PRIMARY KEY (`mov_studio_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table tbl_mov_studio
+-- Dumping data for table `tbl_mov_studio`
 --
 
-INSERT INTO tbl_mov_studio (mov_studio_id, movies_id, studio_id) VALUES
+INSERT INTO `tbl_mov_studio` (`mov_studio_id`, `movies_id`, `studio_id`) VALUES
 (1, 1, 1),
 (2, 2, 2),
 (3, 3, 3),
@@ -969,19 +1034,21 @@ INSERT INTO tbl_mov_studio (mov_studio_id, movies_id, studio_id) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table tbl_studio
+-- Table structure for table `tbl_studio`
 --
 
-CREATE TABLE tbl_studio (
-  studio_id smallint(5) UNSIGNED NOT NULL,
-  studio_name varchar(125) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+DROP TABLE IF EXISTS `tbl_studio`;
+CREATE TABLE IF NOT EXISTS `tbl_studio` (
+  `studio_id` smallint(5) UNSIGNED NOT NULL AUTO_INCREMENT,
+  `studio_name` varchar(125) NOT NULL,
+  PRIMARY KEY (`studio_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table tbl_studio
+-- Dumping data for table `tbl_studio`
 --
 
-INSERT INTO tbl_studio (studio_id, studio_name) VALUES
+INSERT INTO `tbl_studio` (`studio_id`, `studio_name`) VALUES
 (1, 'Marvel Studios'),
 (2, 'Syncopy'),
 (3, 'Donners Company'),
@@ -1006,226 +1073,75 @@ INSERT INTO tbl_studio (studio_id, studio_name) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table tbl_urating
+-- Table structure for table `tbl_urating`
 --
 
-CREATE TABLE tbl_urating (
-  rating_id tinyint(3) UNSIGNED NOT NULL,
-  rating_number tinyint(4) NOT NULL
+DROP TABLE IF EXISTS `tbl_urating`;
+CREATE TABLE IF NOT EXISTS `tbl_urating` (
+  `rating_id` tinyint(3) UNSIGNED NOT NULL AUTO_INCREMENT,
+  `rating_number` tinyint(4) NOT NULL,
+  PRIMARY KEY (`rating_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table tbl_user
+-- Table structure for table `tbl_user`
 --
 
-CREATE TABLE tbl_user (
-  user_id mediumint(8) UNSIGNED NOT NULL,
-  user_fname varchar(250) NOT NULL,
-  user_name varchar(250) NOT NULL,
-  user_pass varchar(250) NOT NULL,
-  user_email varchar(250) NOT NULL,
-  user_date timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  user_ip varchar(50) NOT NULL DEFAULT 'no'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+DROP TABLE IF EXISTS `tbl_user`;
+CREATE TABLE IF NOT EXISTS `tbl_user` (
+  `user_id` mediumint(8) UNSIGNED NOT NULL AUTO_INCREMENT,
+  `user_fname` varchar(250) NOT NULL,
+  `user_name` varchar(250) NOT NULL,
+  `user_pass` varchar(250) NOT NULL,
+  `user_email` varchar(250) NOT NULL,
+  `user_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `user_level` int(50) NOT NULL,
+  `user_ip` varchar(50) NOT NULL DEFAULT 'no',
+  `user_firstlogin` varchar(10) NOT NULL,
+  PRIMARY KEY (`user_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 
 --
--- Indexes for dumped tables
+-- Dumping data for table `tbl_user`
 --
 
+INSERT INTO `tbl_user` (`user_id`, `user_fname`, `user_name`, `user_pass`, `user_email`, `user_date`, `user_level`, `user_ip`, `user_firstlogin`) VALUES
+(3, 'Jennifer', 'jeni', '1991', 'j@j.com', '2018-03-02 14:52:23', 1, '::1', 'no');
 --
--- Indexes for table tbl_arating
+-- Database: `db_portfolio`
 --
-ALTER TABLE tbl_arating
-  ADD PRIMARY KEY (arating_id);
+CREATE DATABASE IF NOT EXISTS `db_portfolio` DEFAULT CHARACTER SET latin1 COLLATE latin1_swedish_ci;
+USE `db_portfolio`;
+
+-- --------------------------------------------------------
 
 --
--- Indexes for table tbl_cast
---
-ALTER TABLE tbl_cast
-  ADD PRIMARY KEY (cast_id),
-  ADD UNIQUE KEY cast_name (cast_name);
-
---
--- Indexes for table tbl_comments
---
-ALTER TABLE tbl_comments
-  ADD PRIMARY KEY (comments_id);
-
---
--- Indexes for table tbl_country
---
-ALTER TABLE tbl_country
-  ADD PRIMARY KEY (country_id);
-
---
--- Indexes for table tbl_director
---
-ALTER TABLE tbl_director
-  ADD PRIMARY KEY (director_id);
-
---
--- Indexes for table tbl_genre
---
-ALTER TABLE tbl_genre
-  ADD PRIMARY KEY (genre_id);
-
---
--- Indexes for table tbl_language
---
-ALTER TABLE tbl_language
-  ADD PRIMARY KEY (lang_id);
-
---
--- Indexes for table tbl_movies
---
-ALTER TABLE tbl_movies
-  ADD PRIMARY KEY (movies_id);
-
---
--- Indexes for table tbl_mov_cast
---
-ALTER TABLE tbl_mov_cast
-  ADD PRIMARY KEY (mov_cast_id);
-
---
--- Indexes for table tbl_mov_country
---
-ALTER TABLE tbl_mov_country
-  ADD PRIMARY KEY (mov_country_id);
-
---
--- Indexes for table tbl_mov_director
---
-ALTER TABLE tbl_mov_director
-  ADD PRIMARY KEY (mov_director_id);
-
---
--- Indexes for table tbl_mov_genre
---
-ALTER TABLE tbl_mov_genre
-  ADD PRIMARY KEY (mov_genre_id);
-
---
--- Indexes for table tbl_mov_lang
---
-ALTER TABLE tbl_mov_lang
-  ADD PRIMARY KEY (mov_lang_id);
-
---
--- Indexes for table tbl_mov_studio
---
-ALTER TABLE tbl_mov_studio
-  ADD PRIMARY KEY (mov_studio_id);
-
---
--- Indexes for table tbl_studio
---
-ALTER TABLE tbl_studio
-  ADD PRIMARY KEY (studio_id);
-
---
--- Indexes for table tbl_urating
---
-ALTER TABLE tbl_urating
-  ADD PRIMARY KEY (rating_id);
-
---
--- Indexes for table tbl_user
---
-ALTER TABLE tbl_user
-  ADD PRIMARY KEY (user_id);
-
---
--- AUTO_INCREMENT for dumped tables
+-- Table structure for table `tbl_portfolio`
 --
 
+DROP TABLE IF EXISTS `tbl_portfolio`;
+CREATE TABLE IF NOT EXISTS `tbl_portfolio` (
+  `portfolio_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT,
+  `portfolio_img` varchar(150) NOT NULL,
+  `portfolio_info` longtext NOT NULL,
+  PRIMARY KEY (`portfolio_id`)
+) ENGINE=MyISAM AUTO_INCREMENT=7 DEFAULT CHARSET=latin1;
+
 --
--- AUTO_INCREMENT for table tbl_arating
+-- Dumping data for table `tbl_portfolio`
 --
-ALTER TABLE tbl_arating
-  MODIFY arating_id smallint(5) UNSIGNED NOT NULL AUTO_INCREMENT;
---
--- AUTO_INCREMENT for table tbl_cast
---
-ALTER TABLE tbl_cast
-  MODIFY cast_id mediumint(8) UNSIGNED NOT NULL AUTO_INCREMENT;
---
--- AUTO_INCREMENT for table tbl_comments
---
-ALTER TABLE tbl_comments
-  MODIFY comments_id mediumint(8) UNSIGNED NOT NULL AUTO_INCREMENT;
---
--- AUTO_INCREMENT for table tbl_country
---
-ALTER TABLE tbl_country
-  MODIFY country_id smallint(3) NOT NULL AUTO_INCREMENT;
---
--- AUTO_INCREMENT for table tbl_director
---
-ALTER TABLE tbl_director
-  MODIFY director_id smallint(5) UNSIGNED NOT NULL AUTO_INCREMENT;
---
--- AUTO_INCREMENT for table tbl_genre
---
-ALTER TABLE tbl_genre
-  MODIFY genre_id tinyint(3) UNSIGNED NOT NULL AUTO_INCREMENT;
---
--- AUTO_INCREMENT for table tbl_language
---
-ALTER TABLE tbl_language
-  MODIFY lang_id smallint(5) UNSIGNED NOT NULL AUTO_INCREMENT;
---
--- AUTO_INCREMENT for table tbl_movies
---
-ALTER TABLE tbl_movies
-  MODIFY movies_id mediumint(8) UNSIGNED NOT NULL AUTO_INCREMENT;
---
--- AUTO_INCREMENT for table tbl_mov_cast
---
-ALTER TABLE tbl_mov_cast
-  MODIFY mov_cast_id mediumint(8) UNSIGNED NOT NULL AUTO_INCREMENT;
---
--- AUTO_INCREMENT for table tbl_mov_country
---
-ALTER TABLE tbl_mov_country
-  MODIFY mov_country_id mediumint(8) UNSIGNED NOT NULL AUTO_INCREMENT;
---
--- AUTO_INCREMENT for table tbl_mov_director
---
-ALTER TABLE tbl_mov_director
-  MODIFY mov_director_id mediumint(8) UNSIGNED NOT NULL AUTO_INCREMENT;
---
--- AUTO_INCREMENT for table tbl_mov_genre
---
-ALTER TABLE tbl_mov_genre
-  MODIFY mov_genre_id mediumint(8) UNSIGNED NOT NULL AUTO_INCREMENT;
---
--- AUTO_INCREMENT for table tbl_mov_lang
---
-ALTER TABLE tbl_mov_lang
-  MODIFY mov_lang_id smallint(5) UNSIGNED NOT NULL AUTO_INCREMENT;
---
--- AUTO_INCREMENT for table tbl_mov_studio
---
-ALTER TABLE tbl_mov_studio
-  MODIFY mov_studio_id mediumint(8) UNSIGNED NOT NULL AUTO_INCREMENT;
---
--- AUTO_INCREMENT for table tbl_studio
---
-ALTER TABLE tbl_studio
-  MODIFY studio_id smallint(5) UNSIGNED NOT NULL AUTO_INCREMENT;
---
--- AUTO_INCREMENT for table tbl_urating
---
-ALTER TABLE tbl_urating
-  MODIFY rating_id tinyint(3) UNSIGNED NOT NULL AUTO_INCREMENT;
---
--- AUTO_INCREMENT for table tbl_user
---
-ALTER TABLE tbl_user
-  MODIFY user_id mediumint(8) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+INSERT INTO `tbl_portfolio` (`portfolio_id`, `portfolio_img`, `portfolio_info`) VALUES
+(1, 'port1.jpg', 'This was a business card designed for a local elementary school teacher to hand out on a magnet for supply teaching.'),
+(2, 'port2.jpg', 'A gift certificate for a local lash business.'),
+(3, 'port3.jpg', 'Taken in Port Stanley, Ontario on a Nikon D7000.'),
+(4, 'port4.jpg', 'Photo taken in Point Clark Ontario on a Nikon D7000.'),
+(5, 'port5.jpg', 'Mobile mockup for a local shoe company for a class assignment.'),
+(6, 'port6.jpg', 'Business card mockup for an agency school assignment.');
+COMMIT;
+
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
